@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Payment Page</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 20px;
+         background: linear-gradient(to bottom right, #c0f0ff, #0077b6); 
+    }
+
+    h2 {
+      color: #222;
+    }
+
+    section {
+      background: #fff;
+      padding: 20px;
+      margin: 20px;
+      border-radius: 12px;
+      text-align: center; 
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    }
+
+    input[type="text"],
+    input[type="number"],
+    input[type="email"] {
+      width: 100%;
+      padding: 10px;
+      margin: 8px 0 15px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+    }
+
+    .payment-options {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 15px;
+    }
+
+    .payment-options input[type="radio"] {
+      display: none;
+    }
+
+    .payment-options label {
+      background-color: #f0f0f0;
+      padding: 12px 16px;
+      border-radius: 8px;
+      cursor: pointer;
+      border: 2px solid transparent;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .payment-options input[type="radio"]:checked + label {
+      border-color: #4caf50;
+      background-color: #e0f7ea;
+    }
+
+    .payment-options img {
+      width: 24px;
+      height: 24px;
+    }
+
+    .card-details {
+      display: none;
+      margin-top: 15px;
+    }
+   .deliver {
+      width: 80%;
+      padding: 10px;
+      margin:10x;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+    }
+
+    .card-details input {
+      width: calc(50% - 10px);
+      margin-right: 10px;
+    }
+
+    .card-details input:last-child {
+      margin-right: 0;
+    }
+
+    .card-details input[type="text"] {
+      width: calc(100% - 20px);
+    }
+
+    .payment-options label:hover {
+      background-color: #e0e0e0;
+    }
+
+    .payment-options input[type="radio"]:checked + label:hover {
+      background-color: #d0f0d0;
+
+   }
+    button {
+      background: #4caf50;
+      color: white;
+      padding: 12px 20px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 16px;
+    }
+
+    button:hover {
+      background: #45a049;
+    }
+    .back-home-btn {
+  background-color: #0077b6;
+  color: white;
+  padding: 10px 20px;
+  font-size: 15px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  margin-top: 20px;
+}
+
+.back-home-btn:hover {
+  background-color: #005f94;
+}
+
+  </style>
+</head>
+<body>
+  <h2>Delivery Address</h2>
+  <div Style="display:flex; justify-content:center; align-items:center;background-color:white;border-radius: 12px;padding: 20px;box-shadow: 0 2px 6px rgba(0,0,0,0.1); flex-direction:column;"> 
+  <form id="deliveryForm">
+  <input class="deliver" type="text" id="name" placeholder="Full Name" required>
+  <input  class="deliver" type="email" id="email" placeholder="Email ID" required>
+  <input type="text" id="phone" placeholder="Phone Number" required>
+  <input type="text" id="address" placeholder="House No, Street, Area" required>
+  <input type="text" id="city" placeholder="City" required>
+  <input type="text" id="state" placeholder="State" required>
+  <input type="number" id="pincode" placeholder="Pincode" required>
+  </form>
+  </div>
+
+
+  <h2>Order Summary</h2>
+  <section>
+    <div id="order-summary"></div>
+  </section>
+  <div style="text-align: center;">
+  <a href="homeaquatics.html">
+    <button class="back-home-btn">← Back to Home</button>
+  </a>
+</div>
+
+
+  <h2>Payment Method</h2>
+  <section>
+    <div class="payment-options">
+      <input type="radio" name="payment" id="gpay" value="GPay">
+      <label for="gpay"><img src="gpay.png" alt="GPay Logo">Google Pay</label>
+
+      <input type="radio" name="payment" id="paytm" value="Paytm">
+      <label for="paytm"><img src="paytm.png" alt="Paytm Logo">Paytm</label>
+
+      <input type="radio" name="payment" id="phonepe" value="PhonePe">
+      <label for="phonepe"><img src="phonepe.png" alt="PhonePe Logo">PhonePe</label>
+
+      <input type="radio" name="payment" id="card" value="Card">
+      <label for="card"><img src="card.png" alt="Card Logo">Credit / Debit Card</label>
+
+      <input type="radio" name="payment" id="cod" value="COD">
+      <label for="cod"><img src="cod.png" alt="COD Logo">Cash on Delivery</label>
+    </div>
+
+    <div class="card-details" id="cardDetails">
+      <input type="text" placeholder="Cardholder Name">
+      <input type="text" placeholder="Card Number">
+      <input type="text" placeholder="MM/YY">
+      <input type="text" placeholder="CVV">
+    </div>
+  </section>
+
+  <button onclick="placeOrder()">Place Order</button>
+
+  <script>
+    const paymentRadios = document.querySelectorAll('input[name="payment"]');
+    const cardDetails = document.getElementById('cardDetails');
+    let cardSelected = false;
+
+    paymentRadios.forEach(radio => {
+      radio.addEventListener('change', () => {
+        if (radio.value === 'Card') {
+        
+          cardSelected = !cardSelected;
+          cardDetails.style.display = cardSelected ? 'block' : 'none';
+
+        
+          if (!cardSelected) {
+            radio.checked = false;
+          }
+        } else {
+          cardDetails.style.display = 'none';
+          cardSelected = false;
+        }
+      });
+    });
+
+     function renderOrderSummary() {
+  const orderSummaryContainer = document.getElementById("order-summary");
+  const cartItems = JSON.parse(localStorage.getItem("cart")) || [];
+
+  if (cartItems.length === 0) {
+    orderSummaryContainer.innerHTML = `
+      <h2>🧾 Order Summary</h2>
+      <div style="padding: 20px; text-align: center; color: #888; border: 1px solid #ddd; border-radius: 8px;">
+        No items in cart.
+      </div>
+    `;
+    return;
+  }
+
+  let totalPrice = 0;
+  let itemHTML = cartItems.map((item, index) => {
+    const itemTotal = item.price * item.quantity;
+    totalPrice += itemTotal;
+
+    return `
+      <div style="display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid #ccc; padding: 10px 0;">
+        <img src="${item.image || item.img || 'fallback.jpg'}" alt="${item.name}" style="width: 60px; height: 60px; border-radius: 6px; object-fit: cover; margin-right: 10px;">
+        <div style="flex: 1;">
+          <h4 style="margin: 0;">${item.name}</h4>
+          <div style="font-size: 14px; color: #555;">₹${item.price} × ${item.quantity}</div>
+        </div>
+        <div style="font-weight: bold; color: green;">₹${itemTotal}</div>
+        <button onclick="decreaseQuantity(${index})" 
+          style="padding: 2px 8px; font-weight: bold; font-size: 14px; background-color: red; color: white; border: none; border-radius: 4px; cursor: pointer; margin-left: 8px;">
+          −
+        </button>
+      </div>
+    `;
+  }).join("");
+
+  orderSummaryContainer.innerHTML = `
+    <h2 style="margin-bottom: 10px;">🧾 Order Summary</h2>
+    <div style="border: 1px solid #ddd; padding: 10px; border-radius: 8px;">
+      ${itemHTML}
+      <div style="text-align: right; font-size: 18px; margin-top: 10px;">
+        <strong>Total: ₹${totalPrice}</strong>
+      </div>
+    </div>
+  `;
+}
+
+
+  function decreaseQuantity(index) {
+    const cartItems = JSON.parse(localStorage.getItem("cart")) || [];
+    if (cartItems[index].quantity > 1) {
+      cartItems[index].quantity--;
+    } else {
+      cartItems.splice(index, 1); 
+    }
+    localStorage.setItem("cart", JSON.stringify(cartItems));
+    renderOrderSummary();
+  }
+
+  document.addEventListener("DOMContentLoaded", renderOrderSummary);
+  
+  
+ function placeOrder() {
+  const name = document.getElementById("name").value.trim();
+  const email = document.getElementById("email").value.trim();
+  const phone = document.getElementById("phone").value.trim();
+  const address = document.getElementById("address").value.trim();
+  const city = document.getElementById("city").value.trim();
+  const state = document.getElementById("state").value.trim();
+  const pincode = document.getElementById("pincode").value.trim();
+
+  const cartItems = JSON.parse(localStorage.getItem("cart")) || [];
+  const selectedPayment = document.querySelector('input[name="payment"]:checked');
+
+  if (!name || !email || !phone || !address || !city || !state || !pincode) {
+    alert("Please fill out all delivery address fields.");
+    return;
+  }
+
+  if (cartItems.length === 0) {
+    alert("Your cart is empty. Please add items before placing an order.");
+    return;
+  }
+
+  if (!selectedPayment) {
+    alert("Please select a payment method.");
+    return;
+  }
+
+  alert("Order Placed Successfully via " + selectedPayment.value + "!");
+
+ 
+  window.location.href = "order-success.html";
+}
+
+
+  </script>
+</body>
+</html>

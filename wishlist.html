@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>My Wishlist - Aquatic World</title>
+  <style>
+    body { font-family: Arial,sans-serif; margin:0; padding:0;
+      background: linear-gradient(to bottom right,#e0f7ff,#ffffff); }
+    header { background:#0077b6; color:white; padding:15px; text-align:center; position:relative; }
+    header a { color:white; margin:0 10px; text-decoration:none; padding:6px 12px; background:#0096c7; border-radius:4px; }
+    #wishlist-grid { display:flex; flex-wrap:wrap; justify-content:center; padding:20px; }
+    .item-card { background:white; border-radius:10px; box-shadow:0 4px 8px rgba(0,0,0,0.2);
+      width:200px; margin:15px; text-align:center; padding:10px; position:relative; }
+    .item-card img { width:100%; height:140px; object-fit:cover; border-radius:8px; }
+    .price { font-weight:bold;color:green; margin:10px 0; }
+    .btn { background:#0077b6; color:white; border:none; padding:8px 12px; margin:5px; border-radius:5px; cursor:pointer; }
+    .remove-btn { background:#ff3c3c; }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>My Wishlist</h1>
+    <a href="homeaquatics.html">Home</a>
+    <a href="search.html?query=">Search</a>
+    
+  </header>
+
+  <div id="wishlist-grid"></div>
+<a href="homeaquatics.html" style="display:block;text-align:center;margin-top:10px;"><button style="background:#0077b6;color:white;border:none;padding:8px 12px;border-radius:5px;cursor:pointer;">← Continue Shopping</button></a>
+
+
+  <script>
+    let wishlist = JSON.parse(localStorage.getItem("wishlist")) || [];
+    let cart = JSON.parse(localStorage.getItem("cart")) || [];
+
+    function renderWishlist() {
+      const grid = document.getElementById("wishlist-grid");
+      grid.innerHTML = wishlist.length
+        ? wishlist.map(p => `
+            <div class="item-card">
+              <img src="${p.img}" alt="${p.name}">
+              <h3>${p.name}</h3>
+              <div class="price">₹${p.price}</div>
+              <button class="btn" onclick='addToCart(${JSON.stringify(p)})'>Add to Cart</button>
+              <button class="btn remove-btn" onclick='removeFromWishlist(${JSON.stringify(p)})'>Remove</button>
+          <button class="btn" style="background:#00b44b;" onclick='buyNow(${JSON.stringify(p)})'>Buy Now</button>
+
+              </div>
+          `).join('')
+        : '<p style="text-align:center; font-size:18px;">Your wishlist is empty.</p>';
+    }
+
+    function addToCart(product) {
+      const idx = cart.findIndex(x => x.name === product.name);
+      if (idx > -1) cart[idx].quantity += 1;
+      else cart.push({ ...product, quantity: 1 });
+      localStorage.setItem("cart", JSON.stringify(cart));
+      alert(`${product.name} added to cart!`);
+    }
+
+    function removeFromWishlist(product) {
+      wishlist = wishlist.filter(x => x.name !== product.name);
+      localStorage.setItem("wishlist", JSON.stringify(wishlist));
+      renderWishlist();
+    }
+function buyNow(product) {
+  const idx = cart.findIndex(x => x.name === product.name);
+  if (idx > -1) cart[idx].quantity += 1;
+  else cart.push({ ...product, quantity: 1 });
+  localStorage.setItem("cart", JSON.stringify(cart));
+  window.location.href = "buy.html";
+}
+
+
+    document.addEventListener("DOMContentLoaded", renderWishlist);
+  </script>
+</body>
+</html> 

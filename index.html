@@ -1,0 +1,1096 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>WELCOME TO OUR AQUATIC WORLD!</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+      background: linear-gradient(to bottom right, #c0f0ff, #b3ecf4);
+      animation: fadeIn 1.2s ease;
+    }
+
+    header {
+      text-align: center;
+      padding: 20px;
+      color: white;
+      background: url('fish 1.jpg') center/cover no-repeat;
+      animation: slideDown 1s ease;
+    }
+/* Animations */
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    @keyframes slideDown {
+      from { transform: translateY(-100px); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
+    }
+    header h2 {
+      margin: 0;
+      font-size: 36px;
+    }
+
+    .search-container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin-top: 10px;
+      gap: 8px;
+    }
+
+    input[type="search"] {
+      padding: 7px 8px;
+      font-size: 14px;
+      color: #fff;
+      background: transparent;
+      border: 1px solid #ccc;
+      border-radius: 10px;
+      height: 36px;
+    }
+
+    input[type="search"]::placeholder {
+      color: #d2d2d2;
+    }
+
+    button[type="submit"] {
+      width: 40px;
+      height: 36px;
+      border: none;
+      border-radius: 10px;
+      background: transparent url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' class='bi bi-search' viewBox='0 0 16 16'%3E%3Cpath d='M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z'%3E%3C/path%3E%3C/svg%3E") no-repeat center;
+      cursor: pointer;
+      opacity: 0.7;
+      text-indent: -9999px;
+    }
+
+    button[type="submit"]:hover {
+      opacity: 1;
+    }
+
+    nav {
+      text-align: center;
+      padding: 15px;
+      background-color: rgba(255, 255, 255, 0.7);
+    }
+
+    nav a {
+      text-decoration: none;
+      margin: 10px;
+    }
+
+    nav button {
+      background-color: #0096c7;
+      color: white;
+      padding: 10px 15px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+
+    nav button:hover {
+      background-color: #335a62;
+    }
+
+    .section {
+      padding: 40px 20px;
+    }
+
+    .section h2 {
+      text-align: center;
+      color: #023e8a;
+      margin-bottom: 30px;
+    }
+
+    .products {
+      display: flex;
+      overflow-x: auto;
+      gap: 20px;
+      padding: 0 20px;
+      scroll-behavior: smooth;
+      scrollbar-width: none;
+      -ms-overflow-style: none;
+    }
+
+    .products::-webkit-scrollbar {
+      display: none;
+    }
+
+    .product-card {
+      background-color: white;
+      border-radius: 10px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+      width: 220px;
+      flex: 0 0 auto;
+      padding: 15px;
+      text-align: center;
+      cursor: pointer;
+      transition: transform 0.3s;
+    }
+.product-card:hover {
+      transform: scale(1.05);
+    }
+    .product-card img {
+      margin: auto;
+      width: 100%;
+      height: 150px;
+      object-fit: cover;
+      border-radius: 8px;
+    }
+
+    .product-card h4 {
+      margin: 10px 0 5px;
+      color: #005c8e;
+    }
+
+    .product-card p, .product-card span {
+      font-size: 14px;
+      color: #333;
+    }
+
+    .price {
+      font-weight: bold;
+      color: #007700;
+    }
+
+    .add-cart {
+      background-color: #0077b6;
+      color: white;
+      padding: 8px 10px;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 14px;
+    }
+
+    .add-cart:hover {
+      background-color: #023e8a;
+    }
+
+    #cart-icon {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      background-color: #000000;
+      color: white;
+      padding: 10px;
+      border-radius: 50%;
+      cursor: pointer;
+      z-index: 1000;
+    }
+
+    #cart-count {
+      position: absolute;
+      top: -5px;
+      right: -5px;
+      background: red;
+      color: white;
+      border-radius: 50%;
+      padding: 2px 6px;
+      font-size: 12px;
+    }
+
+    #cart-modal {
+      display: none;
+      position: fixed;
+      top: 60px;
+      right: 20px;
+      width: 300px;
+      max-height: 400px;
+      background: white;
+      border: 1px solid #ccc;
+      border-radius: 10px;
+      padding: 15px;
+      z-index: 1000;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+      overflow-y: auto;
+    }
+
+    #cart-modal::-webkit-scrollbar {
+      width: 6px;
+    }
+
+    #cart-modal::-webkit-scrollbar-thumb {
+      background-color: #ccc;
+      border-radius: 5px;
+    }
+
+   .cart-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+.cart-img {
+  width: 50px;
+  height: 50px;
+  object-fit: cover;
+  border-radius: 6px;
+}
+
+.cart-details {
+  flex: 1;
+}
+
+
+    .cart-total {
+      margin-top: 10px;
+      font-weight: bold;
+    }
+
+    .close-cart {
+      background: #ff3c3c;
+      color: white;
+      border: none;
+      padding: 5px 10px;
+      margin-top: 10px;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    
+#wishlist-icon {
+  position: fixed;
+  top: 20px;
+  right: 80px;
+  background-color: #b3b3b3;
+  color: white;
+  padding: 10px;
+  border-radius: 50%;
+  cursor: pointer;
+  z-index: 1000;
+}
+
+    #product-popup {
+  display: none;         /* Only this should remain */
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 600px;
+  max-width: 90%;
+  background: white;
+  border-radius: 10px;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+  z-index: 2000;
+  overflow: hidden;
+  flex-direction: row;   /* keep this instead of display: flex */
+}
+
+
+    #popup-image {
+      width: 50%;
+      object-fit: cover;
+    }
+
+    #popup-content {
+      padding: 20px;
+      width: 50%;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    #popup-content h4, #popup-content h3 {
+      margin: 0 0 10px;
+    }
+
+    .popup-price {
+      font-size: 18px;
+      color: green;
+      margin-bottom: 15px;
+    }
+
+    #popup-content button {
+      margin-top: 10px;
+      padding: 10px;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 15px;
+    }
+   .heart-btn {
+  font-size: 20px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  }
+
+    #popup-add {
+      background-color: #0077b6;
+      color: white;
+    }
+
+    #popup-buy {
+      background-color: #00b44b;
+      color: white;
+    }
+
+    #popup-close {
+      position: absolute;
+      top: 10px;
+      right: 15px;
+      background: red;
+      color: white;
+      border: none;
+      font-weight: bold;
+      font-size: 18px;
+      padding: 2px 10px;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+   .cart-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.remove-btn {
+  background-color: #ff4d4d;
+  color: white;
+  border: none;
+  border-radius: 50%;
+  width: 24px;
+  height: 24px;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  margin: 0 3px;
+}
+
+.remove-btn:hover {
+  background-color: #cc0000;
+}
+
+footer {
+  background-color: #0077b6;
+  color: white;
+  padding: 20px 10px;
+  text-align: center;
+  font-size: 14px;
+  margin-top: 50px;
+}
+
+.footer-content a {
+  color: #ffdd00;
+  text-decoration: none;
+  margin: 0 5px;
+}
+
+.footer-content a:hover {
+  text-decoration: underline;
+}
+
+
+  </style>
+</head>
+<body>
+  
+  <div id="login-overlay" style="position:fixed; top:0; left:0; width:100%; height:100%; background:white;background: linear-gradient(to bottom right, #c0f0ff, #0077b6);  z-index:9999; display:flex; flex-direction:column; justify-content:center; align-items:center; font-family:sans-serif;">
+  <h2 style="font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;">Login to Aquatic Store</h2>
+  <input type="email" id="login-email" placeholder="Enter your email" style="border-radius: 20px; margin: 10px; padding: 10px; width: 250px;">
+  <input type="password" id="login-password" placeholder="Enter your password" style="border-radius: 20px; margin: 10px; padding: 10px; width: 250px;">
+  <button onclick="validateLogin()" style="border-radius: 20px; background: #0077b6; color: white; padding: 10px 20px;">Login</button>
+  <p id="login-error" style="color:red;"></p>
+  <p><b>New user? </b><a href="register.html"> Register here</a></p>
+</div>
+
+  <header>
+    
+    <h2>HOME AQUATICS</h2>
+    
+    <form class="search-container" action="search.html" method="get">
+      <input type="search" name="query" placeholder="Search..." required>
+      <button type="submit" aria-label="Search"></button>
+    </form>
+    <br>
+    <nav>
+      <a href="#home"><button>Home</button></a>
+      <a href="#fish"><button>Fish</button></a>
+      <a href="#plants"><button>Live Plants</button></a>
+      <a href="#feed"><button>Feed</button></a>
+      <a href="#accessories"><button>Accessories</button></a>
+    </nav>
+  </header>
+<div><button onclick="logout()" style="margin-left: 10px; position: fixed; top: 25px; left: 10px; z-index: 10000; background: #0077b6; color: white; padding: 10px; border: none; border-radius: 5px;">Logout</button>
+</div>
+
+
+
+
+  <div id="cart-icon" onclick="toggleCart()">🛒 <span id="cart-count">0</span></div>
+<div id="wishlist-icon" onclick="goToWishlist()">❤️</div>
+
+
+<div id="cart-modal">
+  <h3>Your Cart</h3>
+  <div id="cart-items"></div>
+  <div class="cart-total" id="cart-total">Total: ₹0</div>
+<button class="close-cart" onclick="toggleCart()">Close</button>
+<button class="close-cart" style="background:#555;margin-left:10px;" onclick="clearCart()">Clear Cart</button>
+<a href="buy.html" class="close-cart" style="background:#00b44b;display:inline-block;margin-left:10px;text-decoration:none;text-align:center;">Buy Now</a>
+
+
+</div>
+
+
+  <!-- Product Popup -->
+  <div id="product-popup" class="popup-overlay">
+  
+    <button id="popup-close" onclick="hidePopup()">×</button>
+    <img id="popup-image" src="" alt="Product Image">
+    <div id="popup-content" class="popup-box">
+      <h3></h3>
+      <p></p>
+      <span class="popup-price"></span><br><br>
+  
+      <button id="popup-add" onclick="addToCartFromPopup()">Add to Cart</button>
+      
+<button id="popup-buy" onclick="buyNow()">Buy Now</button>
+
+
+
+    </div>
+  </div>
+  <div class="main-content">
+   <div class="section" id="fish">
+  <h2>🐠 Fish Varieties</h2>
+  <div class="products">
+
+    <div class="product-card" onclick="showPopup({ name: 'Mixed Shrimp', price: 60, img: 'shrimp.jpg', desc: 'Active algae-eaters, great tank cleaners.' })">
+      <img src="shrimp.jpg" alt="Mixed Shrimp">
+      <h4>Mixed Shrimp</h4>
+      <p>Active algae-eaters.</p>
+      <span class="price">₹60/Pair</span>
+      <div>
+        <button class="heart-btn" onclick="event.stopPropagation(); toggleWishlist(this, { name: 'Mixed Shrimp', price: 60, img: 'shrimp.jpg', desc: 'Active algae-eaters, great tank cleaners.' })">🤍</button>
+      </div>
+    </div>
+
+    <div class="product-card" onclick="showPopup({ name: 'Afr Full Red Guppy', price: 60, img: 'redguppy.jpg', desc: 'Bright red fins, hardy and peaceful.' })">
+      <img src="redguppy.jpg" alt="Afr Full Red Guppy">
+      <h4>Afr Full Red Guppy</h4>
+      <p>Bright red fins.</p>
+      <span class="price">₹60/Pair</span>
+      <div>
+        <button class="heart-btn" onclick="event.stopPropagation(); toggleWishlist(this, { name: 'Afr Full Red Guppy', price: 60, img: 'redguppy.jpg', desc: 'Bright red fins, hardy and peaceful.' })">🤍</button>
+      </div>
+    </div>
+
+    <div class="product-card" onclick="showPopup({ name: 'Japanese Blue Guppy', price: 60, img: 'japaneseblue.jpg', desc: 'Elegant blue coloration, great community fish.' })">
+      <img src="japaneseblue.jpg" alt="Japanese Blue Guppy">
+      <h4>Japanese Blue Guppy</h4>
+      <p>Elegant blue coloration.</p>
+      <span class="price">₹60/Pair</span>
+      <div>
+        <button class="heart-btn" onclick="event.stopPropagation(); toggleWishlist(this, { name: 'Japanese Blue Guppy', price: 60, img: 'japaneseblue.jpg', desc: 'Elegant blue coloration, great community fish.' })">🤍</button>
+      </div>
+    </div>
+
+    <div class="product-card" onclick="showPopup({ name: 'Purple Berry Guppy', price: 60, img: 'purpleberry.jpg', desc: 'Unique purple hue, active swimmers.' })">
+      <img src="purpleberry.jpg" alt="Purple Berry Guppy">
+      <h4>Purple Berry Guppy</h4>
+      <p>Unique purple hue.</p>
+      <span class="price">₹60/Pair</span>
+      <div>
+        <button class="heart-btn" onclick="event.stopPropagation(); toggleWishlist(this, { name: 'Purple Berry Guppy', price: 60, img: 'purpleberry.jpg', desc: 'Unique purple hue, active swimmers.' })">🤍</button>
+      </div>
+    </div>
+
+    <div class="product-card" onclick="showPopup({ name: 'Mixed Guppy', price: 60, img: 'guppy.jpg', desc: 'Colorful and beginner-friendly livebearers.' })">
+      <img src="guppy.jpg" alt="Mixed Guppy">
+      <h4>Mixed Guppy</h4>
+      <p>Beginner-friendly guppies.</p>
+      <span class="price">₹60/Pair</span>
+      <div>
+        <button class="heart-btn" onclick="event.stopPropagation(); toggleWishlist(this, { name: 'Mixed Guppy', price: 60, img: 'guppy.jpg', desc: 'Colorful and beginner-friendly livebearers.' })">🤍</button>
+      </div>
+    </div>
+
+
+<div class="product-card" onclick="showPopup({ name: 'Betta', price: 120, img: 'betta.jpg', desc: 'Known for vivid fins and aggressive nature. Best kept solo.' })">
+  <img src="betta.jpg" alt="Betta">
+  <h4>Betta</h4>
+  <p>Vivid fins, solo keeper.</p>
+  <span class="price">₹120/Male</span>
+  <div>
+    <button class="heart-btn" onclick="event.stopPropagation(); toggleWishlist(this, { name: 'Betta', price: 120, img: 'betta.jpg', desc: 'Known for vivid fins and aggressive nature. Best kept solo.' })">🤍</button>
+  </div>
+</div>
+
+<div class="product-card" onclick="showPopup({ name: 'Dumbo Ear Betta', price: 120, img: 'dumboear.jpg', desc: 'Large pectoral fins resembling elephant ears. Show fish.' })">
+  <img src="dumboear.jpg" alt="Dumbo Ear Betta">
+  <h4>Dumbo Ear Betta</h4>
+  <p>Elephant fin display.</p>
+  <span class="price">₹120/Male</span>
+  <div>
+    <button class="heart-btn" onclick="event.stopPropagation(); toggleWishlist(this, { name: 'Dumbo Ear Betta', price: 120, img: 'dumboear.jpg', desc: 'Large pectoral fins resembling elephant ears. Show fish.' })">🤍</button>
+  </div>
+</div>
+
+<div class="product-card" onclick="showPopup({ name: 'Crown Tail Betta', price: 120, img: 'crowntail.jpg', desc: 'Distinct spiky tail fin. Stunning showpiece fish.' })">
+  <img src="crowntail.jpg" alt="Crown Tail Betta">
+  <h4>Crown Tail Betta</h4>
+  <p>Spiky tail fins.</p>
+  <span class="price">₹120/Male</span>
+  <div>
+    <button class="heart-btn" onclick="event.stopPropagation(); toggleWishlist(this, { name: 'Crown Tail Betta', price: 120, img: 'crowntail.jpg', desc: 'Distinct spiky tail fin. Stunning showpiece fish.' })">🤍</button>
+  </div>
+</div>
+
+<div class="product-card" onclick="showPopup({ name: 'Female Betta', price: 120, img: 'female1.jpg', desc: 'Less aggressive than males. Ideal for sorority tanks.' })">
+  <img src="female1.jpg" alt="Female Betta">
+  <h4>Female Betta</h4>
+  <p>For peaceful tanks.</p>
+  <span class="price">₹120/Female</span>
+  <div>
+    <button class="heart-btn" onclick="event.stopPropagation(); toggleWishlist(this, { name: 'Female Betta', price: 120, img: 'female1.jpg', desc: 'Less aggressive than males. Ideal for sorority tanks.' })">🤍</button>
+  </div>
+</div>
+
+<div class="product-card" onclick="showPopup({ name: 'Goldfish', price: 80, img: 'goldfish.jpg', desc: 'Hardy cold-water fish. Great for beginners and kids.' })">
+  <img src="goldfish.jpg" alt="Goldfish">
+  <h4>Goldfish</h4>
+  <p>Beginner-friendly.</p>
+  <span class="price">₹80/Pair</span>
+  <div>
+    <button class="heart-btn" onclick="event.stopPropagation(); toggleWishlist(this, { name: 'Goldfish', price: 80, img: 'goldfish.jpg', desc: 'Hardy cold-water fish. Great for beginners and kids.' })">🤍</button>
+  </div>
+</div>
+
+<div class="product-card" onclick="showPopup({ name: 'Molly', price: 70, img: 'molly.jpg', desc: 'Hardy, livebearing fish. Great for community tanks.' })">
+  <img src="molly.jpg" alt="Molly">
+  <h4>Molly</h4>
+  <p>Peaceful livebearer.</p>
+  <span class="price">₹70/Pair</span>
+  <div>
+    <button class="heart-btn" onclick="event.stopPropagation(); toggleWishlist(this, { name: 'Molly', price: 70, img: 'molly.jpg', desc: 'Hardy, livebearing fish. Great for community tanks.' })">🤍</button>
+  </div>
+</div>
+
+<div class="product-card" onclick="showPopup({ name: 'Platy', price: 65, img: 'platy.jpg', desc: 'Easy-to-care livebearers. Perfect for beginners.' })">
+  <img src="platy.jpg" alt="Platy">
+  <h4>Platy</h4>
+  <p>Colorful & easy care.</p>
+  <span class="price">₹65/Pair</span>
+  <div>
+    <button class="heart-btn" onclick="event.stopPropagation(); toggleWishlist(this, { name: 'Platy', price: 65, img: 'platy.jpg', desc: 'Easy-to-care livebearers. Perfect for beginners.' })">🤍</button>
+  </div>
+</div>
+
+<div class="product-card" onclick="showPopup({ name: 'Zebra Danio', price: 50, img: 'zebra.jpg', desc: 'Fast and playful schooling fish. Hardy and active.' })">
+  <img src="zebra.jpg" alt="Zebra Danio">
+  <h4>Zebra Danio</h4>
+  <p>Fast, fun swimmers.</p>
+  <span class="price">₹50/Pair</span>
+  <div>
+    <button class="heart-btn" onclick="event.stopPropagation(); toggleWishlist(this, { name: 'Zebra Danio', price: 50, img: 'zebra.jpg', desc: 'Fast and playful schooling fish. Hardy and active.' })">🤍</button>
+  </div>
+</div>
+
+<div class="product-card" onclick="showPopup({ name: 'Neon Tetra', price: 100, img: 'neon.jpg', desc: 'Bright glowing stripes. Schooling fish for planted tanks.' })">
+  <img src="neon.jpg" alt="Neon Tetra">
+  <h4>Neon Tetra</h4>
+  <p>Glowing schooling fish.</p>
+  <span class="price">₹100/Pair</span>
+  <div>
+    <button class="heart-btn" onclick="event.stopPropagation(); toggleWishlist(this, { name: 'Neon Tetra', price: 100, img: 'neon.jpg', desc: 'Bright glowing stripes. Schooling fish for planted tanks.' })">🤍</button>
+  </div>
+</div>
+
+<div class="product-card" onclick="showPopup({ name: 'Angelfish', price: 150, img: 'angel.jpg', desc: 'Elegant and slow-moving. Best for calm tanks.' })">
+  <img src="angel.jpg" alt="Angelfish">
+  <h4>Angelfish</h4>
+  <p>Elegant centerpiece fish.</p>
+  <span class="price">₹150/Pair</span>
+  <div>
+    <button class="heart-btn" onclick="event.stopPropagation(); toggleWishlist(this, { name: 'Angelfish', price: 150, img: 'angel.jpg', desc: 'Elegant and slow-moving. Best for calm tanks.' })">🤍</button>
+  </div>
+</div>
+
+<div class="product-card" onclick="showPopup({ name: 'Discuss', price: 1200, img: 'oscar.jpg', desc: 'Large, intelligent fish. Requires warm, clean water.' })">
+  <img src="oscar.jpg" alt="Discuss">
+  <h4>Discuss</h4>
+  <p>Smart and expressive.</p>
+  <span class="price">₹1200</span>
+  <div>
+    <button class="heart-btn" onclick="event.stopPropagation(); toggleWishlist(this, { name: 'Discuss', price: 1200, img: 'oscar.jpg', desc: 'Large, intelligent fish. Requires warm, clean water.' })">🤍</button>
+  </div>
+</div>
+
+
+
+      </div>
+    </div>
+
+    <div class="section" id="plants">
+  <h2>🌿 Live Plants</h2>
+  <div class="products">
+
+    <div class="product-card" onclick="showPopup({ name: 'Anubias', price: 100, img: 'anubias.jpg', desc: 'Tough rhizome plant. Grows slow, perfect for beginners.' })">
+      <img src="anubias.jpg" alt="Anubias">
+      <h4>Anubias</h4>
+      <p>Low light tolerant.</p>
+      <span class="price">₹100</span>
+      <div>
+        <button class="heart-btn" onclick="event.stopPropagation(); toggleWishlist(this, { name: 'Anubias', price: 100, img: 'anubias.jpg', desc: 'Tough rhizome plant. Grows slow, perfect for beginners.' })">🤍</button>
+      </div>
+    </div>
+
+    <div class="product-card" onclick="showPopup({ name: 'Java Fern', price: 90, img: 'javafern.jpg', desc: 'Classic fern with long leaves. Needs no substrate.' })">
+      <img src="javafern.jpg" alt="Java Fern">
+      <h4>Java Fern</h4>
+      <p>Long leafy plant.</p>
+      <span class="price">₹90</span>
+      <div>
+        <button class="heart-btn" onclick="event.stopPropagation(); toggleWishlist(this, { name: 'Java Fern', price: 90, img: 'javafern.jpg', desc: 'Classic fern with long leaves. Needs no substrate.' })">🤍</button>
+      </div>
+    </div>
+
+    <div class="product-card" onclick="showPopup({ name: 'Amazon Sword', price: 110, img: 'amazon.jpg', desc: 'Large leafy background plant. High nutrient demand.' })">
+      <img src="amazon.jpg" alt="Amazon Sword">
+      <h4>Amazon Sword</h4>
+      <p>Aquascape classic.</p>
+      <span class="price">₹110</span>
+      <div>
+        <button class="heart-btn" onclick="event.stopPropagation(); toggleWishlist(this, { name: 'Amazon Sword', price: 110, img: 'amazon.jpg', desc: 'Large leafy background plant. High nutrient demand.' })">🤍</button>
+      </div>
+    </div>
+
+    <div class="product-card" onclick="showPopup({ name: 'Hornwort', price: 70, img: 'hornwort.jpg', desc: 'Fast-growing floating plant. Controls algae growth.' })">
+      <img src="hornwort.jpg" alt="Hornwort">
+      <h4>Hornwort</h4>
+      <p>Fast-growing plant.</p>
+      <span class="price">₹70</span>
+      <div>
+        <button class="heart-btn" onclick="event.stopPropagation(); toggleWishlist(this, { name: 'Hornwort', price: 70, img: 'hornwort.jpg', desc: 'Fast-growing floating plant. Controls algae growth.' })">🤍</button>
+      </div>
+    </div>
+
+    <div class="product-card" onclick="showPopup({ name: 'Duckweed', price: 40, img: 'duckweed.jpg', desc: 'Tiny floating plant. Great for shrimp and fry.' })">
+      <img src="duckweed.jpg" alt="Duckweed">
+      <h4>Duckweed</h4>
+      <p>Floating surface cover.</p>
+      <span class="price">₹40</span>
+      <div>
+        <button class="heart-btn" onclick="event.stopPropagation(); toggleWishlist(this, { name: 'Duckweed', price: 40, img: 'duckweed.jpg', desc: 'Tiny floating plant. Great for shrimp and fry.' })">🤍</button>
+      </div>
+    </div>
+
+    <div class="product-card" onclick="showPopup({ name: 'Cryptocoryne', price: 85, img: 'crypt.jpg', desc: 'Colorful foliage plant for midground. Slow grower.' })">
+      <img src="crypt.jpg" alt="Cryptocoryne">
+      <h4>Cryptocoryne</h4>
+      <p>Colorful foliage.</p>
+      <span class="price">₹85</span>
+      <div>
+        <button class="heart-btn" onclick="event.stopPropagation(); toggleWishlist(this, { name: 'Cryptocoryne', price: 85, img: 'crypt.jpg', desc: 'Colorful foliage plant for midground. Slow grower.' })">🤍</button>
+      </div>
+    </div>
+
+    <div class="product-card" onclick="showPopup({ name: 'Valisneria', price: 95, img: 'valisneria.jpg', desc: 'Tall grass-like leaves. Perfect for the back of tank.' })">
+      <img src="valisneria.jpg" alt="Valisneria">
+      <h4>Valisneria</h4>
+      <p>Long waving leaves.</p>
+      <span class="price">₹95</span>
+      <div>
+        <button class="heart-btn" onclick="event.stopPropagation(); toggleWishlist(this, { name: 'Valisneria', price: 95, img: 'valisneria.jpg', desc: 'Tall grass-like leaves. Perfect for the back of tank.' })">🤍</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+
+    <div class="section" id="feed">
+  <h2>🍽 Feed</h2>
+  <div class="products">
+
+    <div class="product-card" onclick="showPopup({ name: 'Tropical Flakes', price: 50, img: 'flakes.jpg', desc: 'Basic daily food for small and medium fish.' })">
+      <img src="flakes.jpg" alt="Tropical Flakes">
+      <h4>Tropical Flakes</h4>
+      <p>Daily staple food.</p>
+      <span class="price">₹50</span>
+      <div>
+        <button class="heart-btn" onclick="event.stopPropagation(); toggleWishlist(this, { name: 'Tropical Flakes', price: 50, img: 'flakes.jpg', desc: 'Basic daily food for small and medium fish.' })">🤍</button>
+      </div>
+    </div>
+
+    <div class="product-card" onclick="showPopup({ name: 'Tropical Pellets', price: 60, img: 'pellets.jpg', desc: 'Nutritious sinking food for larger fish.' })">
+      <img src="pellets.jpg" alt="Tropical Pellets">
+      <h4>Tropical Pellets</h4>
+      <p>Sinking nutritious food.</p>
+      <span class="price">₹60</span>
+      <div>
+        <button class="heart-btn" onclick="event.stopPropagation(); toggleWishlist(this, { name: 'Tropical Pellets', price: 60, img: 'pellets.jpg', desc: 'Nutritious sinking food for larger fish.' })">🤍</button>
+      </div>
+    </div>
+
+    <div class="product-card" onclick="showPopup({ name: 'Nutrila Farm Pellets', price: 90, img: 'nutrila.jpg', desc: 'High-protein growth food for all tropical species.' })">
+      <img src="nutrila.jpg" alt="Nutrila Pellets">
+      <h4>Nutrila Farm Pellets</h4>
+      <p>Protein-rich growth food.</p>
+      <span class="price">₹90</span>
+      <div>
+        <button class="heart-btn" onclick="event.stopPropagation(); toggleWishlist(this, { name: 'Nutrila Farm Pellets', price: 90, img: 'nutrila.jpg', desc: 'High-protein growth food for all tropical species.' })">🤍</button>
+      </div>
+    </div>
+
+    <div class="product-card" onclick="showPopup({ name: 'Artemia Capsule', price: 90, img: 'capsule.jpg', desc: 'Capsuled brine shrimp for baby and nano fish.' })">
+      <img src="capsule.jpg" alt="Artemia Capsule">
+      <h4>Artemia Capsule</h4>
+      <p>Live food in capsule.</p>
+      <span class="price">₹90</span>
+      <div>
+        <button class="heart-btn" onclick="event.stopPropagation(); toggleWishlist(this, { name: 'Artemia Capsule', price: 90, img: 'capsule.jpg', desc: 'Capsuled brine shrimp for baby and nano fish.' })">🤍</button>
+      </div>
+    </div>
+
+    <div class="product-card" onclick="showPopup({ name: 'Royal Betta Food', price: 90, img: 'royal.jpg', desc: 'Special floating pellets for betta fish.' })">
+      <img src="royal.jpg" alt="Royal Betta Food">
+      <h4>Royal Betta Food</h4>
+      <p>Floating betta pellets.</p>
+      <span class="price">₹90</span>
+      <div>
+        <button class="heart-btn" onclick="event.stopPropagation(); toggleWishlist(this, { name: 'Royal Betta Food', price: 90, img: 'royal.jpg', desc: 'Special floating pellets for betta fish.' })">🤍</button>
+      </div>
+    </div>
+
+    <div class="product-card" onclick="showPopup({ name: 'Royal Guppy Food', price: 90, img: 'royalguppy.jpg', desc: 'Fine flakes for guppy and livebearers.' })">
+      <img src="royalguppy.jpg" alt="Royal Guppy Food">
+      <h4>Royal Guppy Food</h4>
+      <p>Fine flakes for guppies.</p>
+      <span class="price">₹90</span>
+      <div>
+        <button class="heart-btn" onclick="event.stopPropagation(); toggleWishlist(this, { name: 'Royal Guppy Food', price: 90, img: 'royalguppy.jpg', desc: 'Fine flakes for guppy and livebearers.' })">🤍</button>
+      </div>
+    </div>
+
+    <div class="product-card" onclick="showPopup({ name: 'Betta Protein Food', price: 90, img: 'protien.jpg', desc: 'Protein-enriched food to enhance betta color.' })">
+      <img src="protien.jpg" alt="Betta Protein Food">
+      <h4>Betta Protein Food</h4>
+      <p>Color enhancing formula.</p>
+      <span class="price">₹90</span>
+      <div>
+        <button class="heart-btn" onclick="event.stopPropagation(); toggleWishlist(this, { name: 'Betta Protein Food', price: 90, img: 'protien.jpg', desc: 'Protein-enriched food to enhance betta color.' })">🤍</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+   <div class="section" id="accessories">
+  <h2>🛠 Accessories</h2>
+  <div class="products">
+
+    <div class="product-card" onclick="showPopup({ name: 'Internal Filter', price: 250, img: 'filter1.jpg', desc: 'Compact internal filter with sponge and media.' })">
+      <img src="filter1.jpg" alt="Internal Filter">
+      <h4>Internal Filter</h4>
+      <p>Compact filter unit.</p>
+      <span class="price">₹250</span>
+      <div>
+        <button class="heart-btn" onclick="event.stopPropagation(); toggleWishlist(this, { name: 'Internal Filter', price: 250, img: 'filter1.jpg', desc: 'Compact internal filter with sponge and media.' })">🤍</button>
+      </div>
+    </div>
+
+    <div class="product-card" onclick="showPopup({ name: 'Canister Filter', price: 850, img: 'filter2.jpg', desc: 'External filter for large tanks. Superior capacity.' })">
+      <img src="filter2.jpg" alt="Canister Filter">
+      <h4>Canister Filter</h4>
+      <p>External heavy-duty filter.</p>
+      <span class="price">₹850</span>
+      <div>
+        <button class="heart-btn" onclick="event.stopPropagation(); toggleWishlist(this, { name: 'Canister Filter', price: 850, img: 'filter2.jpg', desc: 'External filter for large tanks. Superior capacity.' })">🤍</button>
+      </div>
+    </div>
+
+    <div class="product-card" onclick="showPopup({ name: 'Sponge Filter', price: 150, img: 'filter3.jpg', desc: 'Gentle filter for shrimp and fry tanks.' })">
+      <img src="filter3.jpg" alt="Sponge Filter">
+      <h4>Sponge Filter</h4>
+      <p>Air-powered filter.</p>
+      <span class="price">₹150</span>
+      <div>
+        <button class="heart-btn" onclick="event.stopPropagation(); toggleWishlist(this, { name: 'Sponge Filter', price: 150, img: 'filter3.jpg', desc: 'Gentle filter for shrimp and fry tanks.' })">🤍</button>
+      </div>
+    </div>
+
+    <div class="product-card" onclick="showPopup({ name: 'Light', price: 300, img: 'light.jpg', desc: 'LED strip for plant and fish enhancement.' })">
+      <img src="light.jpg" alt="Aquarium Light">
+      <h4>Light</h4>
+      <p>Color enhancing LED.</p>
+      <span class="price">₹300</span>
+      <div>
+        <button class="heart-btn" onclick="event.stopPropagation(); toggleWishlist(this, { name: 'Light', price: 300, img: 'light.jpg', desc: 'LED strip for plant and fish enhancement.' })">🤍</button>
+      </div>
+    </div>
+
+    <div class="product-card" onclick="showPopup({ name: 'Top Light', price: 300, img: 'ledstrip.jpg', desc: 'Top-mounted LED for nano aquariums.' })">
+      <img src="ledstrip.jpg" alt="Top Light">
+      <h4>Top Light</h4>
+      <p>Top-mounted LED.</p>
+      <span class="price">₹300</span>
+      <div>
+        <button class="heart-btn" onclick="event.stopPropagation(); toggleWishlist(this, { name: 'Top Light', price: 300, img: 'ledstrip.jpg', desc: 'Top-mounted LED for nano aquariums.' })">🤍</button>
+      </div>
+    </div>
+
+    <div class="product-card" onclick="showPopup({ name: 'Spot Light', price: 300, img: 'spotlight.jpg', desc: 'Focused light for highlighting aquascapes.' })">
+      <img src="spotlight.jpg" alt="Spot Light">
+      <h4>Spot Light</h4>
+      <p>Highlight focal areas.</p>
+      <span class="price">₹300</span>
+      <div>
+        <button class="heart-btn" onclick="event.stopPropagation(); toggleWishlist(this, { name: 'Spot Light', price: 300, img: 'spotlight.jpg', desc: 'Focused light for highlighting aquascapes.' })">🤍</button>
+      </div>
+    </div>
+
+    <div class="product-card" onclick="showPopup({ name: 'Heater', price: 350, img: 'heater.jpg', desc: 'Adjustable aquarium heater. Stable temps.' })">
+      <img src="heater.jpg" alt="Heater">
+      <h4>Heater</h4>
+      <p>Auto temperature control.</p>
+      <span class="price">₹350</span>
+      <div>
+        <button class="heart-btn" onclick="event.stopPropagation(); toggleWishlist(this, { name: 'Heater', price: 350, img: 'heater.jpg', desc: 'Adjustable aquarium heater. Stable temps.' })">🤍</button>
+      </div>
+    </div>
+
+    <div class="product-card" onclick="showPopup({ name: 'Smoke Bubbler', price: 180, img: 'bubbler.jpg', desc: 'Creates smoke-like bubble effects for display tanks.' })">
+      <img src="bubbler.jpg" alt="Smoke Bubbler">
+      <h4>Smoke Bubbler</h4>
+      <p>Misty visual effects.</p>
+      <span class="price">₹180</span>
+      <div>
+        <button class="heart-btn" onclick="event.stopPropagation(); toggleWishlist(this, { name: 'Smoke Bubbler', price: 180, img: 'bubbler.jpg', desc: 'Creates smoke-like bubble effects for display tanks.' })">🤍</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+    </div>
+  </div>
+  <script>
+ function logout() {
+  localStorage.removeItem("userLoggedIn");
+  location.reload(); 
+}
+let cart = JSON.parse(localStorage.getItem("cart")) || [];
+let wishlist = JSON.parse(localStorage.getItem("wishlist")) || [];
+
+function saveCart() {
+  localStorage.setItem("cart", JSON.stringify(cart));
+}
+function addToCart(name, price, image) {
+  const existing = cart.find(item => item.name === name);
+  if (existing) {
+    existing.quantity += 1;
+  } else {
+    cart.push({ name, price, quantity: 1, image }); 
+  }
+  saveCart();
+  updateCart();
+}
+
+
+function decreaseQuantity(index) {
+  if (cart[index].quantity > 1) {
+    cart[index].quantity -= 1;
+  } else {
+    cart.splice(index, 1);
+  }
+  saveCart();
+  updateCart();
+}
+function increaseQuantity(index) {
+  cart[index].quantity += 1;
+  saveCart();
+  updateCart();
+}
+function clearCart() {
+  cart = [];
+  saveCart();
+  updateCart();
+}
+function saveWishlist() {
+  localStorage.setItem("wishlist", JSON.stringify(wishlist));
+}
+function updateCart() {
+  const cartItems = document.getElementById('cart-items');
+  const cartTotal = document.getElementById('cart-total');
+  const cartCount = document.getElementById('cart-count');
+
+  if (!cartItems || !cartTotal || !cartCount) return;
+
+  cartItems.innerHTML = '';
+  let total = 0;
+  let count = 0;
+
+  cart.forEach((item, index) => {
+    const itemTotal = item.price * item.quantity;
+    total += itemTotal;
+    count += item.quantity;
+
+  
+    const cartItem = document.createElement('div');
+    cartItem.className = 'cart-item';
+
+    
+    const img = document.createElement('img');
+    img.src = item.image || item.img || 'fallback.jpg';
+    img.alt = item.name;
+    img.className = 'cart-img';
+    cartItem.appendChild(img);
+
+
+    const cartDetails = document.createElement('div');
+    cartDetails.className = 'cart-details';
+
+    const name = document.createElement('strong');
+    name.textContent = item.name;
+
+    const controls = document.createElement('div');
+    controls.style.margin = '5px 0';
+
+    const minusBtn = document.createElement('button');
+    minusBtn.textContent = '−';
+    minusBtn.className = 'remove-btn';
+    minusBtn.onclick = () => decreaseQuantity(index);
+
+    const plusBtn = document.createElement('button');
+    plusBtn.textContent = '+';
+    plusBtn.className = 'remove-btn';
+    plusBtn.onclick = () => increaseQuantity(index);
+
+    controls.appendChild(minusBtn);
+    controls.appendChild(plusBtn);
+
+    const priceDetails = document.createElement('div');
+    priceDetails.style.fontSize = '14px';
+    priceDetails.style.color = 'green';
+    priceDetails.innerHTML = `₹${item.price} × ${item.quantity} = ₹${itemTotal}`;
+
+    cartDetails.appendChild(name);
+    cartDetails.appendChild(controls);
+    cartDetails.appendChild(priceDetails);
+
+    cartItem.appendChild(cartDetails);
+    cartItems.appendChild(cartItem);
+  });
+
+  cartTotal.textContent = `Total: ₹${total}`;
+  cartCount.textContent = count;
+}
+
+
+function toggleCart() {
+  const modal = document.getElementById('cart-modal');
+  if (modal) {
+    modal.style.display = modal.style.display === 'block' ? 'none' : 'block';
+  }
+}
+
+
+document.addEventListener("DOMContentLoaded", updateCart);
+document.addEventListener("DOMContentLoaded", () => {
+  updateCart();
+  updateHeartIcons();
+});
+
+
+    function showPopup(product) {
+      popupProduct = product;
+      document.getElementById("popup-image").src = product.img;
+      document.querySelector("#popup-content h3").textContent = product.name;
+      document.querySelector("#popup-content p").textContent = product.desc;
+      document.querySelector(".popup-price").textContent = `₹${product.price}`;
+      document.getElementById("product-popup").style.display = "flex";
+    }
+
+    function hidePopup() {
+      document.getElementById("product-popup").style.display = "none";
+    }
+
+    function addToCartFromPopup() {
+addToCart(popupProduct.name, popupProduct.price, popupProduct.img);
+
+      hidePopup();
+    }
+function buyNow() {
+  addToCartFromPopup();
+  window.location.href = "buy.html";
+}
+
+function addToWishlist() {
+  const exists = wishlist.find(item => item.name === popupProduct.name);
+  if (!exists) {
+    wishlist.push({ ...popupProduct });
+    saveWishlist();
+    alert(`${popupProduct.name} added to wishlist!`);
+  } else {
+    alert(`${popupProduct.name} is already in wishlist.`);
+  }
+}
+function goToWishlist() {
+  window.location.href = "wishlist.html";
+}
+
+    
+    document.getElementById('product-popup').addEventListener('click', function(e) {
+      if (e.target.id === 'product-popup') hidePopup();
+    });
+    function toggleWishlist(button, product) {
+  const index = wishlist.findIndex(item => item.name === product.name);
+  if (index === -1) {
+    wishlist.push(product);
+  } else {
+    wishlist.splice(index, 1);
+  }
+  saveWishlist();
+  updateHeartIcons();
+}
+
+function updateHeartIcons() {
+  const allCards = document.querySelectorAll('.product-card');
+  allCards.forEach(card => {
+    const name = card.querySelector('h4')?.textContent;
+    const heartBtn = card.querySelector('.heart-btn');
+    if (!heartBtn || !name) return;
+
+    const inWishlist = wishlist.some(item => item.name === name);
+    heartBtn.textContent = inWishlist ? '❤️' : '🤍';
+  });
+}
+function validateLogin() {
+  const email = document.getElementById('login-email').value.trim();
+  const password = document.getElementById('login-password').value.trim();
+  const storedEmail = localStorage.getItem("userEmail");
+  const storedPassword = localStorage.getItem("userPassword");
+  const errorMsg = document.getElementById('login-error');
+
+  if (email === storedEmail && password === storedPassword) {
+    localStorage.setItem("userLoggedIn", "true");
+    document.getElementById("login-overlay").style.display = "none";
+  } else {
+    errorMsg.textContent = "Invalid email or password.";
+  }
+}
+
+window.addEventListener('DOMContentLoaded', () => {
+  if (localStorage.getItem("userLoggedIn") === "true") {
+    document.getElementById("login-overlay").style.display = "none";
+  }
+});
+  </script>
+  <footer>
+  <div class="footer-content">
+    <p>&copy; 2025 Aquatic World. All rights reserved.</p>
+    <p>Contact: <a href="mailto:info@aquaticworld.com">info@aquaticworld.com</a></p>
+    <p>Follow us on 
+      <a href="#" target="_blank">Instagram: diwa.30</a> | 
+      <a href="#" target="_blank">Whatsapp: 7200474034</a>
+    </p>
+  </div>
+</footer>
+
+</body>
+</html>

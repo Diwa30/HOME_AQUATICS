@@ -1,0 +1,124 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Checkout - Aquatic World</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        background: linear-gradient(to bottom right, #f0faff, #ffffff);
+      }
+      header {
+        background-color: #0077b6;
+        color: white;
+        padding: 15px;
+        text-align: center;
+      }
+      header a {
+        color: white;
+        text-decoration: none;
+        padding: 6px 12px;
+        background-color: #0096c7;
+        border-radius: 4px;
+        margin: 0 5px;
+      }
+      .container {
+        max-width: 700px;
+        margin: 30px auto;
+        background: white;
+        border-radius: 10px;
+        padding: 20px;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+      }
+      .cart-item {
+        display: flex;
+        justify-content: space-between;
+        border-bottom: 1px solid #ddd;
+        padding: 10px 0;
+      }
+      .cart-item:last-child {
+        border-bottom: none;
+      }
+      .cart-item h4 {
+        margin: 0;
+      }
+      .total {
+        text-align: right;
+        font-weight: bold;
+        font-size: 18px;
+        margin-top: 20px;
+      }
+      .place-order {
+        display: block;
+        background-color: #00b44b;
+        color: white;
+        padding: 12px 20px;
+        border: none;
+        border-radius: 6px;
+        margin: 20px auto 0;
+        font-size: 16px;
+        cursor: pointer;
+      }
+      .empty-msg {
+        text-align: center;
+        font-size: 18px;
+        padding: 40px;
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <h1>Checkout</h1>
+      <a href="index.html">Home</a>
+      <a href="wishlist.html">Wishlist</a>
+    </header>
+
+    <div class="container" id="checkout-container"></div>
+
+    <script>
+      let cart = JSON.parse(localStorage.getItem("cart")) || [];
+
+      function renderCheckout() {
+        const container = document.getElementById("checkout-container");
+
+        if (cart.length === 0) {
+          container.innerHTML =
+            '<div class="empty-msg">Your cart is empty.</div>';
+          return;
+        }
+
+        let total = 0;
+        const content = cart
+          .map((item) => {
+            const itemTotal = item.price * item.quantity;
+            total += itemTotal;
+            return `
+        <div class="cart-item" style="display:flex; align-items:center; gap:12px; margin-bottom:15px;">
+          <img src="${item.image || item.img || "fallback.jpg"}" alt="${item.name}" style="width:60px; height:60px; object-fit:cover; border-radius:6px;">
+          <div style="flex:1">
+            <h4 style="margin:0 0 5px;">${item.name}</h4>
+            <small style="color:gray;">₹${item.price} × ${item.quantity}</small>
+          </div>
+          <div style="font-weight:bold; color:green;">₹${itemTotal}</div>
+        </div>
+      `;
+          })
+          .join("");
+
+        container.innerHTML = `
+      ${content}
+      <div class="total" style="font-size:16px; font-weight:bold; margin-top:10px;">Total: ₹${total}</div>
+      <button class="place-order" onclick="window.location.href='payment.html'" style="margin-top:15px;">Place Order</button>
+      <a href="index.html" style="display:block;text-align:center;margin-top:10px;">
+        <button style="background:#0077b6;color:white;border:none;padding:8px 12px;border-radius:5px;cursor:pointer;">
+          Cancel ← Back to Home
+        </button>
+      </a>
+    `;
+      }
+
+      document.addEventListener("DOMContentLoaded", renderCheckout);
+    </script>
+  </body>
+</html>
